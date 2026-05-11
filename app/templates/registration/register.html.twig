@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - PLSPP{% endblock %}
+
+{% block body %}
+<div class="fr-container fr-py-6v">
+    <div class="fr-grid-row fr-grid-row--center">
+        <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+            
+            <div class="fr-card fr-p-4v">
+                <h1 class="fr-h2 fr-mb-4v">Créer votre compte Sapeur Pompier</h1>
+                <p class="fr-text--sm fr-mb-4v">Identifiez-vous pour accéder à la gestion du personnel et du matériel.</p>
+
+                {{ form_start(registrationForm) }}
+                    
+                    {# Affichage des erreurs globales #}
+                    {% if form_errors(registrationForm) %}
+                        <div class="fr-alert fr-alert--error fr-mb-3v">
+                            {{ form_errors(registrationForm) }}
+                        </div>
+                    {% endif %}
+
+                    <div class="fr-input-group">
+                        {{ form_label(registrationForm.email, 'Email professionnel', {'label_attr': {'class': 'fr-label'}}) }}
+                        {{ form_widget(registrationForm.email, {'attr': {'class': 'fr-input', 'placeholder': 'exemple@sdis.fr'}}) }}
+                        {{ form_errors(registrationForm.email) }}
+                    </div>
+
+                    <div class="fr-input-group">
+                        {{ form_label(registrationForm.Pompier, 'Prénom Nom', {'label_attr': {'class': 'fr-label'}}) }}
+                        {{ form_widget(registrationForm.Pompier, {'attr': {'class': 'fr-input', 'placeholder': 'Raphaël Nabi'}}) }}
+                        {{ form_errors(registrationForm.Pompier) }}
+                    </div>
+
+                    <div class="fr-input-group">
+                        {{ form_label(registrationForm.plainPassword, 'Mot de passe', {'label_attr': {'class': 'fr-label'}}) }}
+                        {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'fr-input'}}) }}
+                        {{ form_errors(registrationForm.plainPassword) }}
+                    </div>
+
+                    <div class="fr-mt-4v">
+                        <ul class="fr-btns-group">
+                            <li>
+                                <button type="submit" class="fr-btn">
+                                    Créer mon compte
+                                </button>
+                            </li>
+                            <li>
+                                <a href="{{ path('app_login') }}" class="fr-btn fr-btn--secondary">
+                                    Déjà inscrit ? Se connecter
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                {{ form_end(registrationForm) }}
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

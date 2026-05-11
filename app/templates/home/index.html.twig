@@ -1,11 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-<div class="fr-container fr-py-6v">
-    <h1>Bienvenue sur mon projet Symfony</h1>
-    <button class="fr-btn">
-        Ceci est un bouton aux normes DSFR
-    </button>
-</div>
-{% endblock %}
+{% block title %}Accueil PLSPP{% endblock %}
 
+{% block body %}
+<main role="main" id="content">
+    <div class="fr-py-12v fr-background-alt--grey">
+        <div class="fr-container">
+            <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+                
+                <div class="fr-col-12 fr-col-md-7">
+                    <h1 class="fr-h1 fr-mb-4v">
+                        Portail de Gestion <br>
+                        <span style="color: #e1000f;">Sapeurs-Pompiers</span>
+                    </h1>
+                    <p class="fr-text--lead fr-mb-6v">
+                        Une interface sécurisée dédiée au pilotage opérationnel : 
+                        gestion des astreintes, suivi du parc matériel et communication inter-services.
+                    </p>
+                    <ul class="fr-btns-group">
+                        <li>
+                            <a class="fr-btn fr-btn--lg" href="{{ path('app_login') }}">
+                                Accéder à votre espace.
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="fr-col-12 fr-col-md-5">
+                    <div class="fr-responsive-img fr-ratio-4x3" style="border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
+                        <img src="{{ asset('images/pompier-paris.jpg') }}" alt="Pompiers en action" style="object-fit: cover; width: 100%; height: 100%;">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <section class="fr-py-8v fr-background-alt--blue-france" id="en-savoir-plus">
+        <div class="fr-container">
+            <div class="fr-grid-row">
+                <div class="fr-col-12">
+                    <h2 class="fr-h2">Une solution complète pour le terrain</h2>
+                </div>
+            </div>
+            <div class="fr-grid-row fr-grid-row--gutters">
+                <div class="fr-col-12 fr-col-md-4">
+                    <div class="fr-tile fr-enlarge-link">
+                        <div class="fr-tile__body">
+                            <h3 class="fr-tile__title">
+                                <a href="{{ path('app_login')}}">Gestion des Astreintes</a>
+                            </h3>
+                            <p class="fr-tile__desc">Inscrivez-vous sur le planning et suivez les effectifs en temps réel.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="fr-col-12 fr-col-md-4">
+                    <div class="fr-tile fr-enlarge-link">
+                        <div class="fr-tile__body">
+                            <h3 class="fr-tile__title">
+                                <a href="{{ path('app_login')}}">Suivi du Matériel</a>
+                            </h3>
+                            <p class="fr-tile__desc">Signalez les avaries et suivez l'état opérationnel des véhicules.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+{% endblock %}
