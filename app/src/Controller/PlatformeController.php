@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class PlatformeController extends AbstractController
 {
-    #[Route('/pompier/espace', name: 'app_user_platform')]
+    #[Route('/policier/espace', name: 'app_user_platform')]
     public function userIndex(): Response
     {
         return $this->render('platforme/user_index.html.twig');

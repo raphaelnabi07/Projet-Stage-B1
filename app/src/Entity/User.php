@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -35,7 +37,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Pompier = null;
+    private ?string $prenom = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $nom = null;
+
+    /**
+     * @var Collection<int, Conge>
+     */
+    #[ORM\OneToMany(targetEntity: Conge::class, mappedBy: 'agent')]
+    private Collection $conges;
+
+    public function __construct()
+    {
+        $this->conges = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -118,14 +134,56 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // @deprecated, to be removed when upgrading to Symfony 8
     }
 
-    public function getPompier(): ?string
+    public function getPrenom(): ?string
     {
-        return $this->Pompier;
+        return $this->prenom;
     }
 
-    public function setPompier(string $Pompier): static
+    public function setPrenom(string $prenom): static
     {
-        $this->Pompier = $Pompier;
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+        public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): static
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Conge>
+     */
+    public function getConges(): Collection
+    {
+        return $this->conges;
+    }
+
+    public function addConge(Conge $conge): static
+    {
+        if (!$this->conges->contains($conge)) {
+            $this->conges->add($conge);
+            $conge->setAgent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConge(Conge $conge): static
+    {
+        if ($this->conges->removeElement($conge)) {
+            // set the owning side to null (unless already changed)
+            if ($conge->getAgent() === $this) {
+                $conge->setAgent(null);
+            }
+        }
 
         return $this;
     }

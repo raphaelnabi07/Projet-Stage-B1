@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription - PLSPP{% endblock %}
+{% block title %}Inscription - PLCPP{% endblock %}
 
 {% block body %}
 <div class="fr-container fr-py-6v">
@@ -8,8 +8,8 @@
         <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
             
             <div class="fr-card fr-p-4v">
-                <h1 class="fr-h2 fr-mb-4v">Créer votre compte Sapeur Pompier</h1>
-                <p class="fr-text--sm fr-mb-4v">Identifiez-vous pour accéder à la gestion du personnel et du matériel.</p>
+                <h1 class="fr-h2 fr-mb-4v">Créer votre compte PLCPP</h1>
+                <p class="fr-text--sm fr-mb-4v">Identifiez-vous pour accéder à votre espace personnel.</p>
 
                 {{ form_start(registrationForm) }}
                     
@@ -27,9 +27,15 @@
                     </div>
 
                     <div class="fr-input-group">
-                        {{ form_label(registrationForm.Pompier, 'Prénom Nom', {'label_attr': {'class': 'fr-label'}}) }}
-                        {{ form_widget(registrationForm.Pompier, {'attr': {'class': 'fr-input', 'placeholder': 'Raphaël Nabi'}}) }}
-                        {{ form_errors(registrationForm.Pompier) }}
+                        {{ form_label(registrationForm.prenom, 'Prénom', {'label_attr': {'class': 'fr-label'}}) }}
+                        {{ form_widget(registrationForm.prenom, {'attr': {'class': 'fr-input', 'placeholder': 'Raphaël'}}) }}
+                        {{ form_errors(registrationForm.prenom) }}
+                    </div>
+
+                    <div class="fr-input-group">
+                        {{ form_label(registrationForm.nom, 'Nom', {'label_attr': {'class': 'fr-label'}}) }}
+                        {{ form_widget(registrationForm.nom, {'attr': {'class': 'fr-input', 'placeholder': 'Nabi'}}) }}
+                        {{ form_errors(registrationForm.nom) }}
                     </div>
 
                     <div class="fr-input-group">

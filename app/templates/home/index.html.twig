@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil PLSPP{% endblock %}
+{% block title %}Accueil - Platforme Congé PP{% endblock %}
 
 {% block body %}
 <main role="main" id="content">
@@ -10,17 +10,17 @@
                 
                 <div class="fr-col-12 fr-col-md-7">
                     <h1 class="fr-h1 fr-mb-4v">
-                        Portail de Gestion <br>
-                        <span style="color: #e1000f;">Sapeurs-Pompiers</span>
+                        Platforme Congé PP <br>
+                        <span style="color: #000091;">Gestion des Congés</span>
                     </h1>
                     <p class="fr-text--lead fr-mb-6v">
-                        Une interface sécurisée dédiée au pilotage opérationnel : 
-                        gestion des astreintes, suivi du parc matériel et communication inter-services.
+                        Interface officielle de la Préfecture de Police de Paris dédiée à la planification des repos. 
+                        Consultez votre calendrier, déposez vos demandes de congés et suivez vos validations en temps réel.
                     </p>
                     <ul class="fr-btns-group">
                         <li>
                             <a class="fr-btn fr-btn--lg" href="{{ path('app_login') }}">
-                                Accéder à votre espace.
+                                Se connecter
                             </a>
                         </li>
                     </ul>
@@ -28,7 +28,7 @@
 
                 <div class="fr-col-12 fr-col-md-5">
                     <div class="fr-responsive-img fr-ratio-4x3" style="border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
-                        <img src="{{ asset('images/pompier-paris.jpg') }}" alt="Pompiers en action" style="object-fit: cover; width: 100%; height: 100%;">
+                        <img src="{{ asset('images/policier.jpg') }}" alt="Agents de la Police de Paris en service" style="object-fit: cover; width: 100%; height: 100%;">
                     </div>
                 </div>
 
@@ -40,7 +40,7 @@
         <div class="fr-container">
             <div class="fr-grid-row">
                 <div class="fr-col-12">
-                    <h2 class="fr-h2">Une solution complète pour le terrain</h2>
+                    <h2 class="fr-h2">Votre espace personnel de planification</h2>
                 </div>
             </div>
             <div class="fr-grid-row fr-grid-row--gutters">
@@ -48,9 +48,9 @@
                     <div class="fr-tile fr-enlarge-link">
                         <div class="fr-tile__body">
                             <h3 class="fr-tile__title">
-                                <a href="{{ path('app_login')}}">Gestion des Astreintes</a>
+                                <a href="{{ path('app_login')}}">Calendrier Interactif</a>
                             </h3>
-                            <p class="fr-tile__desc">Inscrivez-vous sur le planning et suivez les effectifs en temps réel.</p>
+                            <p class="fr-tile__desc">Visualisez vos périodes de repos et les disponibilités de votre service sur un planning dynamique.</p>
                         </div>
                     </div>
                 </div>
@@ -58,9 +58,19 @@
                     <div class="fr-tile fr-enlarge-link">
                         <div class="fr-tile__body">
                             <h3 class="fr-tile__title">
-                                <a href="{{ path('app_login')}}">Suivi du Matériel</a>
+                                <a href="{{ path('app_login')}}">Demandes Simplifiées</a>
                             </h3>
-                            <p class="fr-tile__desc">Signalez les avaries et suivez l'état opérationnel des véhicules.</p>
+                            <p class="fr-tile__desc">Déposez vos RTT, congés annuels ou récupérations en quelques clics via notre formulaire sécurisé.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="fr-col-12 fr-col-md-4">
+                    <div class="fr-tile fr-enlarge-link">
+                        <div class="fr-tile__body">
+                            <h3 class="fr-tile__title">
+                                <a href="{{ path('app_login')}}">Suivi en Direct</a>
+                            </h3>
+                            <p class="fr-tile__desc">Recevez une notification dès que votre hiérarchie ou le service RH valide votre demande.</p>
                         </div>
                     </div>
                 </div>
