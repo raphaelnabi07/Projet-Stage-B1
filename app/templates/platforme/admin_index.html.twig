@@ -205,7 +205,7 @@
             <span class="sidebar-text">Déconnexion</span>
         </a>
 
-        <a href="#" class="sidebar-item">
+        <a href="{{ path('app_admin_dashboard') }}" class="sidebar-item">
             <span class="fr-icon-calendar-line"></span>
             <span class="sidebar-text">Mon Calendrier</span>
         </a>
@@ -215,7 +215,7 @@
             <span class="sidebar-text">Services & Groupes</span>
         </a>
 
-        <a href="#" class="sidebar-item">
+        <a href="{{ path('app_conges_attente_admin') }}" class="sidebar-item">
             <span class="fr-icon-time-line"></span>
             <span class="sidebar-text">Demandes en attente</span>
         </a>    
@@ -238,9 +238,26 @@
         </div>
     </main>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bootstrap-4/bootstrap-4.css">
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById('logout-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+
+            Swal.fire({
+                title: 'Déconnexion',
+                text: "Souhaitez-vous vraiment fermer votre session ?",
+                showCancelButton: true,
+                confirmButtonColor: '#000091',
+                confirmButtonText: 'Oui, me déconnecter',
+                cancelButtonText: 'Annuler',
+                background: '#f6f6f6',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ path('app_logout') }}";
+                }
+            })
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -256,26 +273,9 @@
                     center: 'title',
                     right: 'today',
                 },
+                events: '/api/conges'
             });
             calendar.render();
         });
-
-    document.getElementById('logout-btn').addEventListener('click', function(e) {
-        e.preventDefault();
-
-        Swal.fire({
-            title: 'Déconnexion',
-            text: "Souhaitez-vous vraiment fermer votre session ?",
-            showCancelButton: true,
-            confirmButtonColor: '#000091',
-            confirmButtonText: 'Oui, me déconnecter',
-            cancelButtonText: 'Annuler',
-            background: '#f6f6f6',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "{{ path('app_logout') }}";
-            }
-        })
-    });
     </script>
 {% endblock %}

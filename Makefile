@@ -51,3 +51,8 @@ start: ## Lancer les conteneurs Docker
 ## -- Stop ----------------------------------------------------------
 stop: ## Arrêter les conteneurs Docker
 	docker compose down
+
+## -- Git Bundle ----------------------------------------------------------
+bundle: ## Cree un bundle
+	git bundle create projet-stage.bundle HEAD
+	echo -e "\033[36mFichier 'projet-stage.bundle' créé avec succès.\033[0m"
