@@ -55,4 +55,13 @@ stop: ## Arrêter les conteneurs Docker
 ## -- Git Bundle ----------------------------------------------------------
 bundle: ## Cree un bundle
 	git bundle create projet-stage.bundle HEAD
-	echo -e "\033[36mFichier 'projet-stage.bundle' créé avec succès.\033[0m"
+	echo -e "\033[32mFichier 'projet-stage.bundle' cree avec succes.\033[0m"
+
+## -- Install après Clone ----------------------------------------------------------
+install: ##Installer les dépendances et configurer la base de données après un clone
+	cp -n app/.env app/.env.local || true
+	docker compose up -d --build
+	sleep 10
+	docker compose exec -T app composer install --no-interaction
+	docker compose exec -T app php bin/console doctrine:database:create --if-not-exists
+	docker compose exec -T app php bin/console doctrine:schema:update --force

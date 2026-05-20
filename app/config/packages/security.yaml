@@ -43,7 +43,7 @@ security:
         - { path: ^/register, roles: PUBLIC_ACCESS }
 
         # 2.
-        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/, roles: PUBLIC_ACCESS }
 
         - { path: ^/admin, roles: ROLE_ADMIN }
 
