@@ -58,7 +58,7 @@ bundle: ## Cree un bundle
 	git bundle create projet-stage.bundle HEAD
 	echo -e "\033[32mFichier 'projet-stage.bundle' cree avec succes.\033[0m"
 
-## -- Install après Clone ----------------------------------------------------------
+## -- Installation des pré-requis ----------------------------------------------------------
 install: ## Installer les dépendances et configurer la base de données après un clone
 	cp -n app/.env app/.env.local || true
 	docker compose up -d --build
@@ -66,3 +66,13 @@ install: ## Installer les dépendances et configurer la base de données après 
 	docker compose exec -T app composer install --no-interaction
 	docker compose exec -T app php bin/console doctrine:database:create --if-not-exists
 	docker compose exec -T app php bin/console doctrine:migrations:migrate --no-interaction
+
+## -- Créer une migration ----------------------------------------------------------
+migration: ## Générer une nouvelle migration en comparant les entités et la base de données
+	docker compose exec -T app php bin/console make:migration
+	echo "\033[32m[Succès] La migration a ete generee avec succes.\033[0m"
+
+## -- Appliquer les migrations ----------------------------------------------------------
+migrate: ## Appliquer les migrations en attente sur la base de données
+	docker compose exec -T app php bin/console doctrine:migrations:migrate --no-interaction
+	echo "\033[32m[Succès] La base de données est a jour !\033[0m"
