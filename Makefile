@@ -7,7 +7,7 @@ help: ## Afficher cette aide
 	grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[35m%-15s\033[0m %s\n", $$1, $$2}'
 	echo ""
 
-## -- Start ----------------------------------------------------------
+## -- Initialiser ----------------------------------------------------------
 init: ## Initialiser le projet Symfony
 	if [ -f app/.env ]; then \
 		echo -n -e "\033[36mUn .env existe deja. Le remplacer ? (y/n) : \033[0m"; read rep; \
@@ -29,8 +29,9 @@ init: ## Initialiser le projet Symfony
 			fi; \
 		fi; \
 	else \
-		echo -e "\033[33m1) Remplacer .env par .env.dev\033[0m"; \
-		echo -e "\033[33m2) Remplacer .env par .env.prod\033[0m"; \
+		echo -e "\033[34m Le .env n'existe pas, quel .env voulez vous utiliser ?\033[0m"; \
+		echo -e "\033[33m1) Creer .env via .env.dev\033[0m"; \
+		echo -e "\033[33m2) Creer .env via .env.prod\033[0m"; \
 		echo -e "\033[33m3) Annuler\033[0m"; \
 		echo -n -e "\033[32mChoix : \033[0m"; read choix; \
 		if [ "$$choix" = "1" ]; then \
@@ -58,10 +59,10 @@ bundle: ## Cree un bundle
 	echo -e "\033[32mFichier 'projet-stage.bundle' cree avec succes.\033[0m"
 
 ## -- Install après Clone ----------------------------------------------------------
-install: ##Installer les dépendances et configurer la base de données après un clone
+install: ## Installer les dépendances et configurer la base de données après un clone
 	cp -n app/.env app/.env.local || true
 	docker compose up -d --build
 	sleep 10
 	docker compose exec -T app composer install --no-interaction
 	docker compose exec -T app php bin/console doctrine:database:create --if-not-exists
-	docker compose exec -T app php bin/console doctrine:schema:update --force
+	docker compose exec -T app php bin/console doctrine:migrations:migrate --no-interaction
