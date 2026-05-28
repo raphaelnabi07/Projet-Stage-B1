@@ -66,6 +66,7 @@ install: ## Installer les dépendances et configurer la base de données après 
 	docker compose exec -T app composer install --no-interaction
 	docker compose exec -T app php bin/console doctrine:database:create --if-not-exists
 	docker compose exec -T app php bin/console doctrine:migrations:migrate --no-interaction
+	docker compose exec -T app php bin/console doctrine:fixtures:load --no-interaction
 
 ## -- Créer une migration ----------------------------------------------------------
 migration: ## Générer une nouvelle migration en comparant les entités et la base de données
