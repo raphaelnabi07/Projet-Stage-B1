@@ -48,9 +48,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Conge::class, mappedBy: 'agent')]
     private Collection $conges;
 
+    /**
+     * @var Collection<int, Group>
+     */
+    #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'users')]
+    private Collection $groupes;
+
     public function __construct()
     {
         $this->conges = new ArrayCollection();
+        $this->groupes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -183,6 +190,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($conge->getAgent() === $this) {
                 $conge->setAgent(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Group>
+     */
+    public function getGroupes(): Collection
+    {
+        return $this->groupes;
+    }
+
+    public function addGroupe(Group $groupe): static
+    {
+        if (!$this->groupes->contains($groupe)) {
+            $this->groupes->add($groupe);
+            $groupe->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupe(Group $groupe): static
+    {
+        if ($this->groupes->removeElement($groupe)) {
+            $groupe->removeUser($this);
         }
 
         return $this;

@@ -1,0 +1,366 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Groupes PP{% endblock %}
+
+{% block stylesheets %}
+<style>
+    :root {
+        --sidebar-width-closed: 68px;
+        --sidebar-width-open: 240px;
+        --pp-blue: #000091;
+    }
+
+/*==========================================================================
+   STYLE SIDEBAR & CONTENU - MOBILE (Écrans inférieurs à 768px)
+==========================================================================*/
+
+    .sidebar {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        height: 65px;
+        width: 100%;
+        background-color: var(--pp-blue);
+        z-index: 1000;
+        display: flex;
+        flex-direction: row; 
+        justify-content: space-around;
+        align-items: center;
+        padding-top: 0;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    }
+
+    .sidebar-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        height: 100%;
+        color: white;
+        text-decoration: none;
+        transition: background 0.2s;
+    }
+
+    .sidebar-item:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .sidebar-text {
+        display: none;
+    }
+
+    .logout-item {
+        color: #ffb7b7;
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+
+    .logout-item:hover {
+        background-color: rgba(255, 0, 0, 0.2);
+    }
+
+    .main-content-wrapper {
+        margin-left: 0;
+        padding: 1.5rem 1rem 80px 1rem;
+        width: 100%;
+        box-sizing: border-box;
+        transition: padding-left 0.3s ease-out;
+    }
+
+
+/*===========================================================================
+   STYLE SIDEBAR & CONTENU - ORDINATEUR (Écrans supérieurs à 768px)
+===========================================================================*/
+
+    @media (min-width: 768px) {
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: auto;
+            height: 100vh;
+            width: var(--sidebar-width-closed);
+            flex-direction: column;
+            justify-content: flex-start;
+            padding-top: 1rem;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transition: width 0.3s ease-out;
+        }
+
+        .sidebar:hover {
+            width: var(--sidebar-width-open);
+        }
+
+        .sidebar-item {
+            flex: none;
+            flex-direction: row;
+            justify-content: flex-start;
+            padding: 0 22px;
+            height: 70px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .sidebar-text {
+            margin-left: 20px;
+            font-weight: 400;
+            white-space: nowrap;
+            display: none;
+        }
+
+        .sidebar:hover .sidebar-text {
+            opacity: 1;
+            display: block;
+        }
+
+        .logout-item {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 10px;
+        }
+
+        .main-content-wrapper {
+            padding-left: calc(var(--sidebar-width-closed) + 2rem);
+            padding-bottom: 2rem;
+        }
+        
+        .sidebar:hover + .main-content-wrapper {
+            padding-left: calc(var(--sidebar-width-open) + 2rem);
+        }
+    }
+
+    .custom-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        border-bottom: 1px solid var(--border-default-grey);
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .people-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    .person-item {
+        display: inline-flex;
+        align-items: center;
+        font-size: 1.05rem;
+        color: var(--text-title-grey);
+    }
+
+    /* Petite pastille de couleur pour identifier les validateurs */
+    .validator-dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        background-color: #e10051; /* Rose/Framboise vif type DSFR */
+        border-radius: 50%;
+        margin-left: 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<nav class="sidebar">
+    <a href="#" class="sidebar-item logout-item" id="logout-btn">
+        <span class="fr-icon-logout-box-r-line"></span>
+        <span class="sidebar-text">Déconnexion</span>
+    </a>
+
+    <a href="{{ path('app_admin_dashboard') }}" class="sidebar-item">
+        <span class="fr-icon-calendar-line"></span>
+        <span class="sidebar-text">Mon Calendrier</span>
+    </a>
+
+    <a href="{{ path('rh_group_index') }}" class="sidebar-item">
+        <span class="fr-icon-group-line"></span>
+        <span class="sidebar-text">Services & Groupes</span>
+    </a>
+
+    <a href="{{ path('app_conges_attente_admin') }}" class="sidebar-item">
+        <span class="fr-icon-time-line"></span>
+        <span class="sidebar-text">Demandes en attente</span>
+    </a>    
+</nav>
+
+<main class="main-content-wrapper">
+    <div class="fr-container fr-my-4w">
+        <div class="fr-grid-row">
+            <div class="fr-col-12">
+                <h1 class="fr-h2">Espace RH : Gestion des Services & Groupes</h1>
+                
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="fr-alert fr-alert--success fr-mb-3w">
+                            <p>{{ message }}</p>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="fr-grid-row fr-grid-row--gutters">
+            
+            <div class="fr-col-12 fr-col-md-6 fr-grid-row--order-first fr-grid-row--order-md-none">
+                <div class="fr-p-3w fr-mb-3w fr-mb-md-0" style="background-color: var(--background-alt-grey); border-radius: 4px; position: sticky; top: 2rem;">
+                    <h2 class="fr-h4" id="form-title">
+                        {{ currentGroup.id ? '✏️ Modifier le groupe : ' ~ currentGroup.name : 'Créer un nouveau groupe / service' }}
+                    </h2>
+
+                    <form method="POST">
+                        <div class="fr-input-group fr-mb-3w">
+                            <label class="fr-label" for="group_name">Nom du groupe / service</label>
+                            <input type="text" id="group_name" name="group_name" class="fr-input" 
+                                   value="{{ currentGroup.name ?? '' }}" placeholder="Ex: Service des Applications et des Opérations" required>
+                        </div>
+
+                        <div class="fr-input-group fr-mb-2w">
+                            <label class="fr-label" for="search-user">Rechercher des agents</label>
+                            <input type="search" id="search-user" class="fr-input" placeholder="Taper un nom, prénom ou email...">
+                        </div>
+
+                        <div class="fr-table fr-table--scrollable" style="max-height: 280px; overflow-y: auto;">
+                            <table>
+                                <caption>Liste des personnels</caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col" style="width: 60px;">Sélection</th>
+                                        <th scope="col">Nom / Prénom</th>
+                                        <th scope="col">Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="user-table-body">
+                                    {% for user in users %}
+                                        {% set isMember = currentGroup.id and currentGroup.users.contains(user) %}
+                                        <tr class="user-row">
+                                            <td>
+                                                <div class="fr-checkbox-group">
+                                                    <input type="checkbox" name="selected_users[]" value="{{ user.id }}" 
+                                                           id="check-{{ user.id }}" class="user-checkbox" {{ isMember ? 'checked' : '' }}>
+                                                    <label class="fr-label" for="check-{{ user.id }}"></label>
+                                                </div>
+                                            </td>
+                                            <td class="user-name fr-text--bold">{{ user.nom|upper }} {{ user.prenom }}</td>
+                                            <td class="user-email fr-text-mention--grey">{{ user.email }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="3" class="fr-text--center">Aucun agent enregistré en base.</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="fr-mt-3w fr-grid-row fr-grid-row--gutters">
+                            <div class="fr-col">
+                                <button type="submit" class="fr-btn w-100">
+                                    {{ currentGroup.id ? 'Enregistrer les modifications' : 'Créer le groupe' }}
+                                </button>
+                            </div>
+                            {% if currentGroup.id %}
+                                <div class="fr-col">
+                                    <a href="{{ path('rh_group_index') }}" class="fr-btn fr-btn--secondary w-100">Annuler</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="fr-col-12 fr-col-md-6">
+                <h2 class="fr-h4">Groupes Actuels</h2>
+                
+                {% for group in groups %}
+                    <div class="fr-card fr-mb-2w fr-card--no-arrow fr-card--grey" style="padding: 1rem; height: auto; min-height: auto;">
+                        
+                        <div class="custom-card-header">
+                            <div>
+                                <h3 class="fr-text--md fr-mb-0" style="font-weight: 700; color: var(--pp-blue);">
+                                    <span class="fr-icon-building-line fr-mr-1v" aria-hidden="true"></span>
+                                    {{ group.name }}
+                                </h3>
+                                <span class="fr-text--xs fr-text-mention--grey">
+                                    {{ group.users|length }} membre(s)
+                                </span>
+                            </div>
+                            <a href="{{ path('rh_group_edit', {'id': group.id}) }}" class="fr-btn fr-btn--sm fr-btn--secondary fr-icon-edit-line" style="height: 2rem; width: 2rem; min-height: auto;">
+                                <span class="fr-sr-only">Modifier</span>
+                            </a>
+                        </div>
+                        
+                        <div class="people-list">
+                            {% for member in group.users %}
+                                <div class="person-item" title="{{ member.email }}">
+                                    <span class="fr-icon-user-line fr-icon--sm fr-mr-1v" aria-hidden="true" style="color: #666;"></span>
+                                    <span class="fr-text--bold">{{ member.prenom }} {{ member.nom|upper }}</span>
+                                    
+                                    {# Si la personne a le rôle ADMIN, on affiche la puce colorée indicatrice #}
+                                    {% if 'ROLE_ADMIN' in member.roles %}
+                                        <span class="validator-dot" title="Peut valider les congés"></span>
+                                        <span class="fr-text--xs fr-ml-1v" style="color: #e10051; font-style: italic;">Valideur</span>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <p class="fr-text--xs fr-text-mention--grey fr-mb-0">Aucun agent affecté.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="fr-text--mention">Aucun groupe créé pour le moment.</p>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</main>
+
+{# --- SCRIPT RECHERCHE TEMPS RÉEL --- #}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-user');
+    const rows = document.querySelectorAll('.user-row');
+
+    searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+
+        rows.forEach(row => {
+            const name = row.querySelector('.user-name').textContent.toLowerCase();
+
+            if (name.includes(query)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+
+{# --- SWEETALERT DECONNEXION --- #}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById('logout-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+
+        Swal.fire({
+            title: 'Déconnexion',
+            text: "Souhaitez-vous vraiment fermer votre session ?",
+            showCancelButton: true,
+            confirmButtonColor: '#000091',
+            confirmButtonText: 'Oui, me déconnecter',
+            cancelButtonText: 'Annuler',
+            background: '#f6f6f6',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "{{ path('app_logout') }}";
+            }
+        })
+    });
+</script>
+{% endblock %}

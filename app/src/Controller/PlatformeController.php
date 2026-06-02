@@ -11,19 +11,19 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class PlatformeController extends AbstractController
 {
-    #[Route('/PP/espace', name: 'app_user_platforme')]
+    #[Route('/PP/User/Espace', name: 'app_user_platforme')]
     public function userIndex(): Response
     {
         return $this->render('platforme/user_index.html.twig');
     }
 
-    #[Route('/PP/admin/dashboard', name: 'app_admin_dashboard')]
+    #[Route('/PP/Admin/Espace', name: 'app_admin_dashboard')]
     public function adminIndex(): Response
     {
         return $this->render('platforme/admin_index.html.twig');
     }
 
-    #[Route('/PP/demandes-en-attente', name: 'app_conges_attente_user', methods: ['GET'])]
+    #[Route('/PP/User/demandes-en-attente', name: 'app_conges_attente_user', methods: ['GET'])]
     public function demandesUser(CongeRepository $congeRepository): Response
     {
         $conges = $congeRepository->findBy(['statut' => 'En attente']);
@@ -32,7 +32,7 @@ class PlatformeController extends AbstractController
         ]);
     }
 
-    #[Route('/PP/admin/demandes-en-attente', name: 'app_conges_attente_admin', methods: ['GET'])]
+    #[Route('/PP/Admin/demandes-en-attente', name: 'app_conges_attente_admin', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function demandesAdmin(CongeRepository $congeRepository): Response
     {
@@ -42,7 +42,7 @@ class PlatformeController extends AbstractController
         ]);
     }
 
-    #[Route('/PP/admin/conge/valider/{id}', name: 'app_admin_conge_valider', methods: ['GET'])]
+    #[Route('/PP/Admin/Conge/valider/{id}', name: 'app_admin_conge_valider', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function validerConge(int $id, CongeRepository $congeRepository, EntityManagerInterface $em): Response
     {
@@ -56,7 +56,7 @@ class PlatformeController extends AbstractController
         return $this->redirectToRoute('app_conges_attente_admin');
     }
 
-    #[Route('/PP/admin/conge/supprimer/{id}', name: 'app_admin_conge_supprimer', methods: ['GET'])]
+    #[Route('/PP/Admin/Conge/supprimer/{id}', name: 'app_admin_conge_supprimer', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function supprimerConge(int $id, CongeRepository $congeRepository, EntityManagerInterface $em): Response
     {

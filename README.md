@@ -24,5 +24,3 @@ Dans le terminal bash éxécuter : make install
 
 ### Étape 3 :
 Dans le terminal bash éxécuter : make start
-
-Commande "make"

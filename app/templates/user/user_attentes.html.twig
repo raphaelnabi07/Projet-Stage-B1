@@ -144,7 +144,7 @@
         <span class="sidebar-text">Mon Calendrier</span>
     </a>
 
-    <a href="#" class="sidebar-item">
+    <a href="{{ path('group_index') }}" class="sidebar-item">
         <span class="fr-icon-group-line"></span>
         <span class="sidebar-text">Services & Groupes</span>
     </a>
@@ -171,7 +171,8 @@
                         <caption>Demandes de congés en attentes</caption>
                         <thead>
                             <tr>
-                                <th scope="col">Agent</th>
+                                <th scope="col">Prénom de l'agent</th>
+                                <th scope="col">Nom de l'agent</th>
                                 <th scope="col">Type de congé</th>
                                 <th scope="col">Date de début</th>
                                 <th scope="col">Date de fin</th>
@@ -181,7 +182,8 @@
                         <tbody>
                             {% for conge in conges %}
                                 <tr>
-                                    <td class="fr-text--bold">{{ conge.agent ? conge.agent.nom : 'Agent inconnu' }}</td>
+                                    <td class="fr-text--bold">{{ conge.agent ? conge.agent.prenom : 'Agent inconnu' }}</td>
+                                    <td class="fr-text--bold">{{ conge.agent ? conge.agent.nom : 'Agent inconnu' }}
                                     <td>{{ conge.type }}</td>
                                     <td>{{ conge.date|date('d/m/Y') }}</td>
                                     <td>{{ conge.dateFin|date('d/m/Y') }}</td>

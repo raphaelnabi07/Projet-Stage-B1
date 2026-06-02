@@ -38,14 +38,16 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # 1. Autoriser l'accès à la page de connexion pour tout le monde
-        - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/register, roles: PUBLIC_ACCESS }
+            # 1. Pages publiques
+            - { path: ^/$, roles: PUBLIC_ACCESS }
+            - { path: ^/login$, roles: PUBLIC_ACCESS }
+            - { path: ^/register$, roles: PUBLIC_ACCESS }
 
-        # 2.
-        - { path: ^/, roles: PUBLIC_ACCESS }
+            # 2. Sécurisation des espaces
+            - { path: ^(?i)/PP/Admin, roles: ROLE_ADMIN }
 
-        - { path: ^/admin, roles: ROLE_ADMIN }
+            # 3. Sécurisation de ton espace User
+            - { path: ^(?i)/PP/User, roles: ROLE_USER }
 
 when@test:
     security:

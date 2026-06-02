@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CongeController extends AbstractController
 {
-    #[Route('/conge/formulaire', name: 'app_conge')]
+    #[Route('/Conge/Formulaire', name: 'app_conge')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $conge = new Conge();
